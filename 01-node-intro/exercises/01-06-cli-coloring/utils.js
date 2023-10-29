@@ -1,10 +1,12 @@
 import fs from "fs";
 
+import clc from 'cli-color'
+
 const filePath = "data.txt";
 
 export function write(input) {
-  fs.appendFileSync(filePath, input + "\n");
-  console.log("appended:", input);
+  fs.appendFileSync(filePath, clc.red(input) + "\n");
+  console.log(clc.blue.bold.underline("appended:"), input);
 }
 
 export function read() {

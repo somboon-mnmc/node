@@ -17,7 +17,6 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   const userId = req.query.id;
   const name = req.body.name;
-
   res.send(`User ID: ${userId}, name has been updated to ${name}`);
 });
 

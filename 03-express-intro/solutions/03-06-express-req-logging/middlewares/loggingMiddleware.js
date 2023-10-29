@@ -1,7 +1,7 @@
 const loggingMiddleware = (req, res, next) => {
   const start = new Date();
 
-  res.on("finish", () => {
+  res.on("finish", () => { //finish คือ event
     const end = new Date();
     const durationMs = end.getTime() - start.getTime();
 

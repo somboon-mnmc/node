@@ -1,3 +1,5 @@
+
+
 let nextId = 5;
 
 const todoDatabase = {
@@ -16,14 +18,13 @@ export const findTodo = (todoId) => {
   return todoDatabase[todoId];
 };
 
-export const createTodo = ({ title }) => {
-  // Implement logic here to create a new todo
-  // 1. Create todo object with the new id from `nextId`
-  const newTodo = { id: nextId, title };
-  // 2. Add the new todo object
+export const createTodo = ({ title, desc }) => {
+ const newTodo = {id: nextId, title, desc}
+ 
   todoDatabase[nextId] = newTodo;
-  // 3. increment the `nextId`
   nextId++;
-  // 4. return a new todo
+
+
   return newTodo;
+
 };

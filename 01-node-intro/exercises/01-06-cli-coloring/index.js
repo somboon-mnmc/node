@@ -1,5 +1,6 @@
 import { write, read, clear } from "./utils.js";
 
+
 const option = process.argv[2];
 const input = process.argv[3];
 
@@ -12,3 +13,4 @@ if (option === "w") {
 } else {
   console.log("invalid option");
 }
+

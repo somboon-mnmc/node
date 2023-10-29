@@ -12,6 +12,11 @@ const userDatabase = {
   22: "Mano",
 };
 
+app.get('/users', (req, res) => {
+  const usersList = Object.entries(userDatabase).map(([id , name]) => ({ id, name }) )
+  res.json({data: usersList});
+});
+
 app.get("/users/:userId", (req, res) => {
   const userId = req.params.userId;
   const name = userDatabase[userId];
@@ -21,7 +26,12 @@ app.get("/users/:userId", (req, res) => {
     return;
   }
 
-  res.send(`User ID: ${userId} (Name: ${name})`);
+  res.json({
+    "data": {
+      "id": userId,
+      "name": name
+    }
+  });
 });
 
 app.post("/users/:userId", (req, res) => {
@@ -29,13 +39,22 @@ app.post("/users/:userId", (req, res) => {
   const name = req.body.name;
 
   if (!userDatabase[userId]) {
-    res.send(`Error User ID ${userId} not found`);
+    res.status(404).json({
+      "error": {
+        "message": "User not found"
+      }
+    })
     return;
   }
 
   userDatabase[userId] = name;
 
-  res.send(`User ID: ${userId}, name has been updated to ${name}`);
+  res.json({
+    "data": {
+      "id": userId,
+      "name": name
+    }
+  });
 });
 
 app.listen(port, () => {

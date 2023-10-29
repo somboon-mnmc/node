@@ -7,8 +7,12 @@ const todoDatabase = [
 
 export const listTodos = () => {
   // Implement logic here to list all todos
+  return todoDatabase
 };
 
 export const findTodo = (todoId) => {
   // Implement logic here to find a single todo by id
+  return  todoDatabase.find((todo) => todo.Id === todoId);
+  
+    
 };

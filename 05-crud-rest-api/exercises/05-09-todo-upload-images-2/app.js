@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
+import cors from "cors";
 
 import {
   findTodo,
@@ -11,6 +12,15 @@ import {
   deleteTodo,
   filterTodosByDone,
 } from "./models/todo.js";
+
+const app = express();
+const port = 8000;
+
+app.use(cors()); // Enable CORS
+
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.static("public"));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,13 +34,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
-const app = express();
-const port = 8000;
-
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(express.static("public"));
 
 app.post("/todos/:todoId/uploads", upload.single("image"), (req, res) => {
   const { filename } = req.file;
@@ -71,6 +74,15 @@ app.get("/todos/:todoId", (req, res) => {
 app.post("/todos", (req, res) => {
   const title = req.body.title;
   const desc = req.body.desc;
+  const activity = req.body.activity;
+  const date = req.body.date;
+  const time = req.body.time;
+  const hour = req.body.hour;
+  const minute = req.body.minute;
+  const location = req.body.location;
+  const distance = req.body.distance;
+  const note = req.body.note;
+  const image = req.body.image; // Assuming you want to send the image URL as well
 
   if (title.length > 30) {
     res
@@ -79,7 +91,19 @@ app.post("/todos", (req, res) => {
     return;
   }
 
-  const todo = createTodo({ title, desc });
+  const todo = createTodo({
+    title,
+    desc,
+    activity,
+    date,
+    time,
+    hour,
+    minute,
+    location,
+    distance,
+    note,
+    image,
+  });
 
   res.json({ data: todo });
 });

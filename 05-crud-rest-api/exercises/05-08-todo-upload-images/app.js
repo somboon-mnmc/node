@@ -1,5 +1,23 @@
+/*
+Objective: Understand how to use multer to upload images
+
+Exercise:
+- Update Postman to have "Upload Todo Image" API.
+- Update route to be able to upload image.
+- Save the image to the folder `./public/uploads`
+- Name the image with uuidv4 to avoid conflict.
+- Return the image path to the client.
+- Ensure the image can be accessed by the client.
+
+Challenge:
+1. Question: Why do we need to use uuidv4 to name the image?
+2. Question: If not using uuidv4, what is the alternative?
+3. Try to implement the alternative for file naming, not using uuidv4.
+*/
+
 import express from "express";
 import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   findTodo,
@@ -13,10 +31,10 @@ import {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, ">>> Change to correct path");
+    cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
-    const name = ">>> Implement uuidv4 here";
+    const name = uuidv4();
     const extension = file.mimetype.split("/")[1];
     const filename = `${name}.${extension}`;
     cb(null, filename);
@@ -29,6 +47,16 @@ const port = 8000;
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.static("public"));
+
+app.post("/todos/:todoId/uploads", upload.single("image"), (req, res) => {
+  const { filename } = req.file;
+  res.json({
+    data: {
+      path: `/uploads/${filename}`,
+    },
+  });
+});
 
 app.get("/todos", (req, res) => {
   const isDone = req.query.isDone;

@@ -1,5 +1,5 @@
 import express from "express";
-import { findTodo, listTodos, createTodo } from "./models/todo.js";
+import { findTodo, listTodos, createTodo, updateTodo, updateTodo } from "./models/todo.js";
 
 const app = express();
 const port = 8000;
@@ -42,10 +42,18 @@ app.post("/todos", (req, res) => {
 
 app.put("/todos/:todoId", (req, res) => {
   // 1. get the `todoId` params and parse to int
+  const todoId = parseInt(req.params.todoId)
   // 2. get the `title` and `desc` from body
+  const {title , desc} = req.body
   // 3. send all data to update with `updateTodo`
+  const updateTodo = updateTodo({id: todoId, title, desc})
   // 4. if the return from updateTodo is null, response error
+  if (!updateTodo) {
+    res.status(404).json({error: {message: "failed to update"})
+    return
+  }
   // 5. response the updatedTodo
+  res.json({ data: updateTodo});
 });
 
 app.listen(port, () => {

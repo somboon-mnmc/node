@@ -1,22 +1,38 @@
-import express from "express";
+import express from 'express';
 const app = express();
-const port = 8000;
+const port = 8000
 
-app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const userDatabase = {
-  // user data here
+const dataBase = {
+  20: "Michael",
+  21: "John",
+  22: "piair",
 };
 
-app.get("/users/:userId", (req, res) => {
-  // Implement here
+app.get('/users/:id', (req, res) => {
+  const id = req.params.id;
+  const name = dataBase[id]
+
+  res.send(`User ID: ${id} (name: ${name})`)
 });
 
 app.post("/users/:userId", (req, res) => {
-  // Implement here
-});
+  const id = req.params.userId;
+  const name = req.body.name;
+  const age = req.body.age;
+  if (!dataBase) {
+    res.send(`error: no data base`)
+    return;
+  }
+
+  dataBase[id] = name;
+  console.log( new Date() )
+  res.send(`User ID: ${id} (name: ${name}) age: ${age}`)
+}) 
+
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+  console.log(`running on port: ${port}`)
+})

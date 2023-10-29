@@ -1,8 +1,46 @@
-import fs from "fs";
+import fs from 'fs';
 
-const filePath = "data.txt";
-const input = process.argv[2];
+const filePath = "data.txt"
 
-fs.appendFileSync(filePath, input + "\n");
+const options = process.argv[2]
+const input = process.argv[3]
 
-console.log(input, "was written in", filePath);
+if(options === "w") {
+    fs.writeFileSync(filePath, input)
+    console.log(` ${input} was successfully written `)
+} else {
+    console.log("error message")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import fs from 'fs';
+
+// const filePath = "data.txt";
+
+// const options = process.argv[2]
+// const input = process.argv[3]
+
+// if (options === "w") {
+//     fs.appendFileSync(filePath , input +"\n")
+//     console.log("append: " + input)
+// }
+
